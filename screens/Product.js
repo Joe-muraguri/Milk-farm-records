@@ -61,37 +61,45 @@ const stockData = {
 export const Product = ({route}) => {
   const {category} = route.params;
   const products = stockData[category.name];
+
+  const [session, setSession] = React.useState("morning");
+  const [litres, setLitres] = React.useState("");
+  const handleSave = () => {
+    // Logic to save the record
+    console.log(`Session: ${session}, Litres: ${litres}`);
+    // Clear the input after saving
+    setLitres("");
+  }
+  
   return (
-    <View>
-      
-        <Text>ADD MILK COLLECTION RECORDS.</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Add Milk Collection Records</Text>
 
-        <Text className="text-lg font-semibold text-gray-700 mb-2">
-        Select Milking Session
-      </Text>
-
-      <Picker
-        selectedValue={'Morning'}
-        onValueChange={(itemValue, itemIndex) => console.log(itemValue)}
-        className="border border-gray-300 rounded-md p-2 mb-4"
-      >
-        <Picker.Item label="Morning" value="morning" />
-        <Picker.Item label="Afternoon" value="afternoon" />
-        <Picker.Item label="Evening" value="evening" />
-      </Picker>
+      <Text style={styles.label}>Select Milking Session</Text>
+      <View style={styles.pickerWrapper}>
+        <Picker
+          selectedValue={session}
+          onValueChange={(value) => setSession(value)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Morning" value="morning" />
+          <Picker.Item label="Afternoon" value="afternoon" />
+          <Picker.Item label="Evening" value="evening" />
+        </Picker>
+      </View>
 
       <TextInput
-          style={styles.input}
-          
-          
-          placeholder="Enter Litres Collected"
-          keyboardType="numeric"
-        />
+        style={styles.input}
+        placeholder="Enter litres collected"
+        placeholderTextColor="#9CA3AF"
+        keyboardType="numeric"
+        value={litres}
+        onChangeText={setLitres}
+      />
 
-        <Button title='SAVE RECORD'  style={styles.addRecordButton} />
-        
-
-        
+      <View style={styles.buttonContainer}>
+        <Button title="SAVE RECORD" color="#2563EB" onPress={handleSave} />
+      </View>
     </View>
 
     
@@ -99,50 +107,49 @@ export const Product = ({route}) => {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 80,
-
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#F9FAFB",
   },
-  productContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    justifyContent: 'space-between',
-    borderRadius: 10,
-    padding: 10,
-    margin: 10,
-    alignItems: 'center',
-    elevation: 3
+  title: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1F2937",
+    marginBottom: 20,
+    textTransform: "uppercase",
+    textAlign: "center",
   },
-  addRecordButton: {
-    marginTop: 10,
-    backgroundColor: '#0434EC',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,    
-
-
-}, 
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  productName: {
-    fontSize: 19,
-    fontWeight: 'bold'
-  },
-  productPrice: {
+  label: {
     fontSize: 16,
-    color: '#0434EC'
+    fontWeight: "600",
+    color: "#374151",
+    marginBottom: 8,
   },
-  productAdd: {
-    fontSize: 27,
-    color: '#0434EC'
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
+    marginBottom: 16,
   },
-  productAddContainer: {
-    marginLeft: 30
-  }
-
+  picker: {
+    height: 50,
+    color: "#111827",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#111827",
+    backgroundColor: "#FFFFFF",
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    borderRadius: 8,
+    overflow: "hidden", // makes button corners rounded
+  },
 })
